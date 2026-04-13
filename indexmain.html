@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çağrı Atav | Portfolio</title>
+    <style>
+        /* GENEL SAYFA AYARLARI */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Animasyon sırasında kaydırmayı kapatır */
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0d0d0d; /* Koyu arka plan */
+            color: #fff;
+        }
+
+        /* HAREKETLİ ARKA PLAN (Slayerish Background) */
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0d0d0d, #1a1a1a);
+            background-size: 200% 200%;
+            animation: moveGradient 10s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* SONSUZLUK İŞARETİ (LOADER) ANİMASYONU */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d0d0d; /* Opera GX stili koyu */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s, visibility 1s; /* Kapanış efekti */
+        }
+
+        .infinity-loader {
+            position: relative;
+            width: 80px;
+            height: 40px;
+        }
+
+        .infinity-loader .curve {
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top-color: #ff0055; /* Opera GX Kırmızısı */
+            border-left-color: #ff0055;
+            animation: rotateInfinity 2s linear infinite;
+        }
+
+        .infinity-loader .left-curve {
+            left: 0;
+        }
+
+        .infinity-loader .right-curve {
+            right: 0;
+            animation-delay: -1s; /* Sonsuzluk etkisini oluşturmak için gecikme */
+            border-top-color: #ff0055;
+            border-right-color: #ff0055;
+            border-left-color: transparent;
+        }
+
+        @keyframes rotateInfinity {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loader gizlendiğinde kullanılacak sınıf */
+        #loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* ANA İÇERİK (SİTE ADI KUTUSU) */
+        #main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            opacity: 0; /* Başlangıçta gizli, animasyonla gelecek */
+            animation: fadeInContent 2s ease forwards;
+            animation-delay: 3s; /* Loader bittikten sonra başlasın */
+        }
+
+        /* KÖŞELİ KUTU VE ADIN */
+        .name-box {
+            background: rgba(26, 26, 26, 0.9);
+            border: 2px solid #333; /* Koyu gri köşeli sınır */
+            border-radius: 8px; /* Çok hafif köşeli, sert değil */
+            padding: 40px 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Derinlik hissi */
+            position: relative;
+        }
+
+        /* KÖŞELERDEKİ ÖZEL AYARLAR (CSS ile süsleme) */
+        .name-box::before, .name-box::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff0055; /* Köşeleri kırmızı yapalım */
+        }
+
+        .name-box::before {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .name-box::after {
+            bottom: -5px;
+            right: -5px;
+            border-top: none;
+            border-left: none;
+        }
+
+        .name-box h1 {
+            font-size: 3em;
+            margin: 0;
+            background: linear-gradient(to right, #fff, #ff0055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; /* Yazıyı degrade yapma */
+            letter-spacing: 2px;
+        }
+
+        .name-box p {
+            color: #888;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        @keyframes fadeInContent {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-layer"></div>
+
+    <div id="loader-wrapper">
+        <div class="infinity-loader">
+            <div class="curve left-curve"></div>
+            <div class="curve right-curve"></div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="name-box">
+            <h1>Çağrı Atav Bey</h1>
+            <p>Yazılımcı</p>
+            <p>index.html Beyfendisi</p>
+        </div>
+    </div>
+
+    <script>
+        // Sayfa yüklendikten 3 saniye sonra Loader'ı gizle
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader-wrapper').classList.add('hidden');
+            }, 3000); // 3000 milisaniye = 3 saniye
+        });
+    </script>
+</body>
+</html>
