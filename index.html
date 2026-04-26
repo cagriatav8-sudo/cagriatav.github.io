@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çağrı ATAV | Portfolio</title>
+    <title>Çağrı ATAV | Yazılımcı</title>
     <style>
-        /* GENEL AYARLAR */
         body, html {
             margin: 0;
             padding: 0;
@@ -17,7 +16,6 @@
             color: #fff;
         }
 
-        /* YILDIZLI ARKA PLAN VE MOUSE TAKİBİ */
         canvas {
             display: block;
             position: fixed;
@@ -26,7 +24,6 @@
             z-index: -1;
         }
 
-        /* ANA KONTEYNER */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -37,18 +34,17 @@
             box-sizing: border-box;
             opacity: 0;
             animation: fadeInContent 1s ease forwards;
-            animation-delay: 3s; /* Loader bittikten sonra başlasın */
+            animation-delay: 2.5s;
         }
 
-        /* KIRMIZI KUTULARIN ORTAK STİLİ */
         .box {
             background: rgba(26, 26, 26, 0.9);
             border: 2px solid #ff0055;
-            border-radius: 40px; /* Ekran görüntüsündeki gibi yuvarlak */
+            border-radius: 40px;
             padding: 30px;
             display: flex;
             flex-direction: column;
-            justify-content: start;
+            justify-content: center;
             align-items: center;
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -60,35 +56,42 @@
         }
 
         .box h2 {
-            margin: 0 0 15px 0;
+            margin: 0 0 10px 0;
             color: #ff0055;
-            font-size: 1.4em;
-            text-align: center;
+            font-size: 1.2em;
+            text-transform: uppercase;
         }
 
-        .box p { margin: 5px 0; color: #ccc; }
+        .box p { margin: 5px 0; color: #ccc; font-weight: 500; }
         .box a { color: #ff0055; text-decoration: none; font-weight: bold; }
 
-        /* SAĞ ÜST KUTU (ÇAĞRI ATAV VE LOGO) */
         #name-box {
-            grid-column: 2;
-            grid-row: 1;
-            align-items: center;
-            justify-content: center;
+            grid-column: 1 / span 2;
             flex-direction: row;
-            padding: 30px 50px;
+            justify-content: space-between;
+            padding: 20px 60px;
             background: rgba(20, 20, 20, 0.95);
         }
 
-        #name-box h1 {
-            font-size: 2em;
-            margin: 0 0 0 20px; /* Logo geldikten sonra sağa boşluk */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #fff;
+        #name-box .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        /* SONSUZLUK İŞARETİ (LOADER) */
+        #name-box h1 {
+            font-size: 1.8em;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #name-box span {
+            color: #ff0055;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
         #loader-wrapper {
             position: fixed;
             top: 0;
@@ -100,31 +103,32 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 1s, visibility 1s, top 1s, left 1s, width 1s, height 1s; /* Kayma efekti */
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         .infinity-loader {
             position: relative;
             width: 80px;
             height: 40px;
+            display: flex;
+            justify-content: center;
         }
 
         .infinity-loader .curve {
             position: absolute;
-            top: 0;
             width: 40px;
             height: 40px;
             border-radius: 50%;
             border: 5px solid transparent;
             border-top-color: #ff0055;
             border-left-color: #ff0055;
-            animation: rotateInfinity 2s linear infinite;
+            animation: rotateInfinity 1.5s linear infinite;
         }
 
-        .infinity-loader .left-curve { left: 0; }
-        .infinity-loader .right-curve {
+        .left-curve { left: 0; }
+        .right-curve {
             right: 0;
-            animation-delay: -1s;
+            animation-delay: -0.75s;
             border-top-color: #ff0055;
             border-right-color: #ff0055;
             border-left-color: transparent;
@@ -135,26 +139,20 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Loader kayarken kullanılacak sınıflar */
         #loader-wrapper.moving {
-            position: absolute;
-            top: 30px; /* name-box'ın top değeri */
-            left: auto;
-            right: 30px; /* name-box'ın right değeri */
-            width: 80px; /* name-box'ın içindeki logo boyutu */
-            height: 40px;
-            background: transparent; /* Arka planı gizle */
-            border-radius: 0;
+            width: 60px;
+            height: 30px;
+            top: 45px;
+            left: calc(100% - 120px);
+            background: transparent;
         }
 
         #loader-wrapper.moving .infinity-loader {
-            width: 60px; /* Kayarken küçülsün */
-            height: 30px;
+            transform: scale(0.6);
         }
 
         @keyframes fadeInContent {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -172,50 +170,70 @@
     <div class="grid-container">
         
         <div class="box" id="name-box">
-            <h1>ÇAĞRI ATAV</h1>
+            <div class="info">
+                <h1>ÇAĞRI ATAV</h1>
+                <span>YAZILIMCI</span>
+            </div>
+            <div id="logo-target" style="width: 60px; height: 30px;"></div>
         </div>
 
-        <div class="box" id="mail-box">
+        <div class="box">
             <h2>E-Posta</h2>
             <p><a href="mailto:cagriatav8@gmail.com">cagriatav8@gmail.com</a></p>
         </div>
 
-        <div class="box" id="tel-box">
-            <h2>Tel</h2>
+        <div class="box">
+            <h2>Telefon</h2>
             <p><a href="tel:05412213940">0541 221 39 40</a></p>
         </div>
 
-        <div class="box" id="script-box">
-            <h2>Script</h2>
-            <p>JavaScript, Node.js</p>
+        <div class="box">
+            <h2>Yetenekler</h2>
+            <p>JavaScript, Node.js, Arduino</p>
         </div>
 
-        <div class="box" id="whatsapp-box">
-            <h2>Whatsapp</h2>
-            <p>Çağrı ATAV</p>
-            <p><a href="https://wa.me/905412213940" target="_blank">Sohbet Başlat</a></p>
+        <div class="box">
+            <h2>İletişim</h2>
+            <p><a href="https://wa.me/905412213940" target="_blank">WhatsApp'tan Yaz</a></p>
         </div>
 
     </div>
 
     <script>
-        // --- LOADER VE KAYMA EFEKTİ ---
-        window.addEventListener('load', function() {
-            const loaderWrapper = document.getElementById('loader-wrapper');
-            const nameBox = document.getElementById('name-box');
+        // Sesli Karşılama Fonksiyonu
+        function sesliKarsilama() {
+            if (window.speechSynthesis.speaking) return; 
+            
+            const mesaj = new SpeechSynthesisUtterance();
+            mesaj.text = "Selam! Ben Çağrı Atav. Yazılımcı ve teknoloji meraklısıyım. JavaScript, Node.js ve Arduino ile projeler geliştiriyorum. Portfolyoma hoş geldin!";
+            mesaj.lang = 'tr-TR';
+            mesaj.rate = 1; 
+            mesaj.pitch = 1;
+            
+            window.speechSynthesis.speak(mesaj);
+        }
 
-            setTimeout(function() {
-                // Kayma efektini başlat
-                loaderWrapper.classList.add('moving');
-                // name-box'ın içine taşıma (animasyon bittikten sonra)
-                setTimeout(function() {
-                    nameBox.prepend(loaderWrapper.querySelector('.infinity-loader'));
-                    loaderWrapper.style.display = 'none'; // Geçici katmanı gizle
-                }, 1000); // Kayma animasyonu süresi
-            }, 2000); // 2 saniye sonra kaymaya başlasın
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            const target = document.getElementById('logo-target');
+
+            setTimeout(() => {
+                loader.classList.add('moving');
+                setTimeout(() => {
+                    target.appendChild(loader.querySelector('.infinity-loader'));
+                    loader.style.display = 'none';
+                    // Otomatik başlatma denemesi
+                    sesliKarsilama();
+                }, 800);
+            }, 1500);
         });
 
-        // --- YILDIZLI ARKA PLAN VE MOUSE TAKİBİ ---
+        // Tarayıcı engeline karşı herhangi bir tıklamada sesi başlat
+        document.body.addEventListener('click', function() {
+            sesliKarsilama();
+        }, { once: true });
+
+        // Arka plan animasyonu (Starfield)
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let width, height, stars;
@@ -224,56 +242,39 @@
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             stars = [];
-
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 150; i++) {
                 stars.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    z: Math.random() * width
+                    z: Math.random() * width,
+                    o: Math.random()
                 });
             }
         }
 
-        function update() {
+        function draw() {
             ctx.fillStyle = '#0d0d0d';
             ctx.fillRect(0, 0, width, height);
 
-            ctx.fillStyle = '#ff0055'; // Yıldızlar kırmızımsı olsun
-            ctx.fillStyle = `rgba(255, 0, 85, ${0.5 + 0.5 * Math.random()})`; // Yanıp sönme
-
-            for (let i = 0; i < stars.length; i++) {
-                let star = stars[i];
+            for (let star of stars) {
                 let px = (star.x - width / 2) * (width / star.z) + width / 2;
                 let py = (star.y - height / 2) * (width / star.z) + height / 2;
-                let r = width / star.z * 1.5;
+                let r = (1 - star.z / width) * 2;
 
-                if (px >= 0 && px <= width && py >= 0 && py <= height) {
-                    ctx.beginPath();
-                    ctx.arc(px, py, r, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+                ctx.fillStyle = `rgba(255, 0, 85, ${star.o})`;
+                ctx.beginPath();
+                ctx.arc(px, py, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                star.z -= 0.5;
+                if (star.z <= 0) star.z = width;
             }
+            requestAnimationFrame(draw);
         }
 
         window.addEventListener('resize', init);
-        window.addEventListener('mousemove', (e) => {
-            // Mouse imlecine göre yıldızların merkezini değiştirme
-            const mouseX = (e.clientX - width / 2) / width;
-            const mouseY = (e.clientY - height / 2) / height;
-
-            for (let i = 0; i < stars.length; i++) {
-                let star = stars[i];
-                star.x -= mouseX * 50; // Kayma hızı
-                star.y -= mouseY * 50;
-            }
-        });
-
         init();
-        function animate() {
-            update();
-            requestAnimationFrame(animate);
-        }
-        animate();
+        draw();
     </script>
 </body>
 </html>
